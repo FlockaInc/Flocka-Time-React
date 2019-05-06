@@ -139,7 +139,11 @@ let data = {
 
     if (keys.length) {
       var email = authService.getCurrentUser().email;
-      var myFlockalogs = this.allUserFlockalogs[email].slice();
+      if (this.allUserFlockalogs[email]) {
+        var myFlockalogs = this.allUserFlockalogs[email].slice();
+      } else {
+        var myFlockalogs = null;
+      }
 
       if (myFlockalogs) {
         var today = Math.floor(moment(moment().format('YYYY-MM-DD')).valueOf() / 86400000);
