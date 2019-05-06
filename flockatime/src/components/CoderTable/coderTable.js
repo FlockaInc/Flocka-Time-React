@@ -22,9 +22,10 @@ function CoderTable() {
       ns.removeObserver(this, 'AUTH_SIGNOUT');
       ns.removeObserver(this, 'DATA_FLOCKALOGS_DOWNLOADED');
     }
-  });
+  }, []);
 
   function handleSignIn() {
+    console.log('coder table handle signin');
     setAuthenticated(true);
     ds.downloadFlockalogs();
   }
@@ -44,6 +45,8 @@ function CoderTable() {
   function generateCoderRows() {
     // let uid = authService.getCurrentUser().uid;
     // console.log(uid);
+    console.log('generateCoderRows');
+    console.log(authenticated && flockaData);
     if (authenticated && flockaData) {
       const leaderboard = flockaData.map((user, index) => {
         var rank = index + 1
@@ -52,7 +55,7 @@ function CoderTable() {
         var total = ds.convertTime(user.total);
 
         return (
-          <CoderRow rank={rank} username={username} dailyAvg={dailyAvg} total={total} />
+          <CoderRow rank={rank} key={index} username={username} dailyAvg={dailyAvg} total={total} />
         );
       });
 

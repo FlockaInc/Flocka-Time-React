@@ -19,7 +19,7 @@ function Navbar() {
       ns.removeObserver(this, 'AUTH_SIGNIN');
       ns.removeObserver(this, 'AUTH_SIGNOUT');
     }
-  });
+  }, []);
 
   // props to pass to NavItem - this is a very messy way to do it
   let signOutBtn = {
@@ -95,7 +95,7 @@ function Navbar() {
   }
 
   function displayApiKey() {
-    if (apiShow) {
+    if (authenticated && apiShow) {
       return (
         <div className='text-white my-auto'>
           <p className='my-auto'>{auth.getApiKey()}</p>

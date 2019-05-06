@@ -22,7 +22,8 @@ function AuthForm(props) {
 
   const btnText = props.authType === 'signin' ? 'Sign In' : 'Sign Up';
 
-  function handleAuthSubmit() {
+  function handleAuthSubmit(event) {
+    event.preventDefault();
     // call email validator api, etc.
     console.log('email:', email);
     console.log('password:', password);
@@ -56,7 +57,7 @@ function AuthForm(props) {
         <label htmlFor='password'>Password</label>
         <input type='password' className='form-control' id='password' placeholder='password' value={password} onChange={onPasswordChange}></input>
       </div>
-      <button type='button' className='btn btn-primary' onClick={handleAuthSubmit}>{btnText}</button>
+      <button type='submit' className='btn btn-primary' onClick={handleAuthSubmit}>{btnText}</button>
     </form>
   );
 }
