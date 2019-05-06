@@ -34,8 +34,8 @@ function AuthModal() {
   }
 
   return (
-    <div className="modal fade" role="dialog">
-      <div className="modal-dialog" role="document">
+    <div className="modal fade" id='sign-in-form'>
+      <div className="modal-dialog modal-dialog-centered">
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={toggleModal}
@@ -43,18 +43,8 @@ function AuthModal() {
           style={customStyles}
         >
           <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title text-black">Modal title</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
             <div className="modal-body">
-              <p>Modal body text goes here.</p>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-primary">Save changes</button>
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              
             </div>
           </div>
         </Modal>
