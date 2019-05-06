@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import AuthForm from '../Forms/authForm';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 import ns from '../../utilities/notificationService';
 
@@ -44,7 +47,22 @@ function AuthModal() {
         >
           <div className="modal-content">
             <div className="modal-body">
-              
+              <button type="button" className="close" onClick={toggleModal} aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <Tabs>
+                <TabList>
+                  <Tab>Sign In</Tab>
+                  <Tab>Sign Up</Tab>
+                </TabList>
+
+                <TabPanel>
+                  <AuthForm authType='signin' />
+                </TabPanel>
+                <TabPanel>
+                  <AuthForm authType='signup' />
+                </TabPanel>
+              </Tabs>
             </div>
           </div>
         </Modal>

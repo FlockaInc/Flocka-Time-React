@@ -5,9 +5,11 @@ import NavItem from '../NavItem/navItem';
 import AuthModal from '../AuthModal/authModal';
 
 import ns from '../../utilities/notificationService';
+import auth from '../../utilities/auth';
 
 function Navbar() {
   const [authenticated, setAuthenticated] = useState(false);
+  const [apiShow, setApiShow] = useState(false);
 
   useEffect(() => {
     ns.addObserver('AUTH_SIGNIN', this, handleAuthSignin);
@@ -27,6 +29,7 @@ function Navbar() {
       type: 'button',
       dataToggle: 'modal',
       dataTarget: '#sign-out-form',
+      onClick: handleSignOutClick
     },
     text: 'Sign Out'
   }
@@ -61,7 +64,7 @@ function Navbar() {
   }
 
   function toggleApiKey() {
-    console.log('toggle API key');
+    setApiShow(!apiShow);
   }
 
   let navItemArr = [signOutBtn, signInBtn, apiBtn]
@@ -76,15 +79,31 @@ function Navbar() {
     setAuthenticated(false);
   }
 
+  function handleSignOutClick() {
+    auth.signOut();
+  }
+
   function generateNavItems() {
     const navItems = navItemArr.map((item, index) => {
       return (
         <div className='btn-toolbar' key={index} role='toolbar' aria-label='Toolbar with button groups'>
-          <NavItem attr={item} />
+          <NavItem attr={item} authenticated={authenticated} />
         </div>
       );
     });
     return navItems;
+  }
+
+  function displayApiKey() {
+    if (apiShow) {
+      return (
+        <div className='text-white my-auto'>
+          <p className='my-auto'>{auth.getApiKey()}</p>
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 
   return (
@@ -98,6 +117,7 @@ function Navbar() {
       <div className='collapse navbar-collapse' id='navbarColor01'>
         <div className='btn-toolbar ml-auto' role='toolbar' aria-label='Toolbar with button groups'>
           {generateNavItems()}
+          {displayApiKey()}
         </div>
       </div>
       <AuthModal />

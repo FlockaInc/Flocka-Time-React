@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './navItem.css';
 
 function NavItem(props) {
-  console.log(props.attr.attr.onClick);
+  // console.log(props.attr.attr.onClick);
   if (props.attr.element === 'ul') {
     return (
       <ul className={props.attr.attr.class || ''}></ul>

@@ -3,58 +3,61 @@ import data from './data';
 import ns from './notificationService';
 
 export default {
-  uid: "", 
+  uid: "",
   email: "",
   signUp: function (email, password) {
     // Call Firebase method to create user with email and password
-    auth.createUserWithEmailAndPassword(email, password).then(function (user) {
-      var userId = user.user.uid;
-      auth.uid = userId;
-      var userEmail = user.user.email;
-      var emailObj = { email: userEmail };
-      console.log(emailObj);
+    var self = this;
+    return new Promise((resolve, reject) => {
+      auth.createUserWithEmailAndPassword(email, password).then(function (user) {
+        var userId = user.user.uid;
+        self.uid = userId;
+        var userEmail = user.user.email;
+        var emailObj = { email: userEmail };
+        console.log(emailObj);
 
-      // data.createUser(emailObj);
-      data.createUser(emailObj);
+        // data.createUser(emailObj);
+        data.createUser(emailObj);
 
-      console.log("User created: " + userId);
-      console.log("User created: " + userEmail);
-    }).catch(function (error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-
-      console.log("Error code: " + errorCode);
-      console.log("Error message: " + errorMessage);
-    });
-  },
-  signIn: function (email, password) {
-    auth.signInWithEmailAndPassword(email, password)
-      .catch(function (error) {
+        // not sure if userId is the best thing to return
+        resolve(userId);
+      }).catch(function (error) {
         var errorCode = error.code;
         var errorMessage = error.message;
 
-        console.log("Error code: " + errorCode);
-        console.log("Error message: " + errorMessage);
+        reject(errorCode);
       });
+    });
+  },
+  signIn: function (email, password) {
+    var self = this;
+    return new Promise((resolve, reject) => {
+      auth.signInWithEmailAndPassword(email, password).then(credential => {
+        var uid = credential.user.uid;
+        self.uid = uid;
+        resolve(uid);
+      }).catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+        reject(errorCode);
+      });
+    })
   },
   signOut: function () {
-    // check if user is authenticated with facebook/twitter first
+    // @TODO check if user is authenticated with facebook first
+    var self = this;
     auth.signOut().then(function () {
-      auth.uid = "";
+      self.uid = "";
       ns.postNotification('AUTH_SIGNOUT', null);
     });
   },
   firebaseAuthListener: auth.onAuthStateChanged(function (user) {
     console.log('firebase auth listener fired');
     if (user) {
-      auth.uid = user.uid;
-      auth.email = user.email;
-      console.log(auth.uid);
-      ns.postNotification('AUTH_SIGNIN', null);
+      ns.postNotification('AUTH_SIGNIN', user.uid);
     }
     else {
-      auth.uid = "";
-      auth.email = "";
       ns.postNotification('AUTH_SIGNOUT', null);
     }
   }),
@@ -72,9 +75,9 @@ export default {
           var credential = fbProvider.credential(
             event.authResponse.accessToken);
           // Sign in with the credential from the Facebook user.
-          auth.signInAndRetrieveDataWithCredential(credential).then(function(cred) {
-            auth.uid = cred.user.uid;
-            data.createUser({email: cred.user.email});
+          auth.signInAndRetrieveDataWithCredential(credential).then(function (cred) {
+            // auth.uid = cred.user.uid;
+            data.createUser({ email: cred.user.email });
           }).catch(function (error) {
             var errorCode = error.code;
             console.log(errorCode);
@@ -88,7 +91,7 @@ export default {
       auth.signOut();
     }
   },
-  isUserEqual: function(facebookAuthResponse, firebaseUser) {
+  isUserEqual: function (facebookAuthResponse, firebaseUser) {
     if (firebaseUser) {
       var providerData = firebaseUser.providerData;
       for (var i = 0; i < providerData.length; i++) {
@@ -100,5 +103,8 @@ export default {
       }
     }
     return false;
+  },
+  getApiKey: function() {
+    return auth.currentUser.uid;
   }
 };
