@@ -161,6 +161,7 @@ let data = {
           };
         })
 
+        // @TODO figure out how to fill in zeros for the correct days
         return lastSevenDaysFlockalogsInHours;
       }
       return null;
@@ -188,8 +189,7 @@ let data = {
     }
 
     return timeString;
-  }
+  },
 }
-// var authObserver = ns.addObserver('AUTH_SIGNIN', this, handleSignin);
 
 export default data;
