@@ -106,5 +106,8 @@ export default {
   },
   getApiKey: function() {
     return auth.currentUser.uid;
+  },
+  getCurrentUser: function() {
+    return auth.currentUser;
   }
 };

@@ -1,31 +1,35 @@
 import { database } from './fire';
 import ns from './notificationService';
-import auth from './auth.js';
+import authService from './auth.js';
 import moment from 'moment';
 
-export default {
+let data = {
   allUserFlockalogs: {},
-  flockaflag: false,
-  handleSignin: function () {
-    // check users node if the currently authenticated user uses vscode
-    var uid = auth.uid;
-    var self = this;
-
-    database.ref('/users/' + uid).once('value').then(function (userSnapshot) {
-      var user = userSnapshot.val();
-      console.log(user);
-      if (user.flocka !== undefined && user.flocka) {
-        self.flockaflag = true;
-        self.downloadFlockalogs();
-      } else {
-        self.flockaflag = false;
-      }
-    });
-  },
-  createUser: function (email) {
-    database.ref("users/" + auth.uid + "/").update(email);
-  },
   usersObject: {}, // Object containing all users and child objects fetched from Firebase
+  flockaflag: false,
+  
+  // function handleSignin() {
+  //   // check users node if the currently authenticated user uses vscode
+  //   var uid = auth.currentUser.uid;
+  //   var self = this;
+  //   console.log('data handleSignIn');
+
+  //   database.ref('/users/' + uid).once('value').then(function (userSnapshot) {
+  //     var user = userSnapshot.val();
+  //     console.log(user);
+  //     if (user.flocka !== undefined && user.flocka) {
+  //       self.flockaflag = true;
+  //       self.downloadFlockalogs();
+  //     } else {
+  //       self.flockaflag = false;
+  //     }
+  //   });
+  // }
+  
+  createUser: function (email) {
+    database.ref("users/" + authService.getCurrentUser().uid + "/").update(email);
+  },
+
   getAllUsers: function () {
     var self = this;
     database.ref('/users').once('value').then(function (snapshot) {
@@ -34,22 +38,7 @@ export default {
       ns.postNotification('USERS_FETCHED', null);
     });
   },
-  timeInstance: "", // Id that represents an instance of user tracking their time 
-  timeObject: {}, // Contains all time instances for a user
-  allTime: {}, // Object containing all time instances and child objects of those instances
-  createTimeInstance: function () { // Creates a child on the time node in Firebase, per user
-    this.timeInstance = database.ref("time/users/" + auth.uid + "/").push({}).key;
 
-    console.log("Current time instance: " + this.timeInstance);
-  },
-  updateTime: function (action) { // Updates the time instance with a start or stop timestamp
-    var timestamp = moment().format("YYYY-MM-DDTHH:mm:ss");
-    var obj = {};
-
-    obj[action] = timestamp;
-
-    database.ref("time/users/" + auth.uid + "/" + this.timeInstance + "/").update(obj);
-  },
   downloadFlockalogs: function () {
     this.allUserFlockalogs = {};
     // download all flockalog data and store in property "allUserFlockalogs" - should be called on page load
@@ -125,6 +114,7 @@ export default {
       ns.postNotification('DATA_FLOCKALOGS_DOWNLOADED', null);
     });
   },
+
   getFlockalogsLeaderboard: function () {
     // ms in a day = 86,400,000
     var keys = Object.keys(this.allUserFlockalogs);
@@ -160,12 +150,14 @@ export default {
 
     return leaderboard;
   },
+
   getCurrentUserDailyFlockatime: function () {
     // returns the current user's daily code time for the past 7 days
     // code time reported in hours
     var keys = Object.keys(this.allUserFlockalogs);
     if (keys.length) {
-      var myFlockalogs = this.allUserFlockalogs[auth.email];
+      var email = authService.getCurrentUser().email;
+      var myFlockalogs = this.allUserFlockalogs[email];
       for (var i = 0; i < myFlockalogs.length; i++) {
         myFlockalogs[i].time = myFlockalogs[i].time / 1000 / 3600;
       }
@@ -201,172 +193,7 @@ export default {
       return lastSevenDaysFlockalogs;
     }
   },
-  calculatePersonalTime: function () { // Calculates personal time for the previous week and filters per day
-    var prevWeek = new Array(7).fill(0);
-    var dayIndex = 0;
 
-    var daysOfWeek = this.createWeek();
-    var weekData = [];
-
-    var keys = [];
-
-    if ((this.timeObject !== undefined) &&
-      (this.timeObject !== null)) {
-
-      keys = Object.keys(this.timeObject);
-    }
-
-    var i;
-    var j = keys.length;
-
-    if (keys.length !== 0) { // If no time instance exists, avoid executing the loop
-      for (i = 0, j = keys.length; i < j; i++) {
-
-        if (this.timeObject[keys[i]].stop !== undefined) { // Protect against instance where no start timestamp exists
-          dayIndex = this.determineThisWeek(this.timeObject[keys[i]].start);
-
-          if (dayIndex < 7) {
-            prevWeek[dayIndex] += this.parseTimestamp(this.timeObject[keys[i]].start, this.timeObject[keys[i]].stop);
-          }
-        }
-        else {
-          console.log("null time: " + keys[i]);
-        }
-      }
-    }
-
-    prevWeek = prevWeek.reverse(); // Make array in ascending days order
-
-    j = daysOfWeek.length;
-
-    for (i = 0; i < j; i++) {
-      weekData[i] = {
-        time: prevWeek[i],
-        date: daysOfWeek[i]
-      }
-    }
-
-    return weekData;
-  },
-  createWeek: function () { // Create and return an array of days of the week in the format "YYYY-MM-DD"
-    var week = [];
-    var i;
-    var j;
-
-    for (i = 0, j = 6; i < 7; i++) {
-      week[i] = moment().subtract(j, 'day').format("YYYY-MM-DD");
-      j--;
-    }
-
-    return week;
-  },
-  parseTimestamp: function (start, stop) { // Use Moment JS to determine the time between timestamps in minutes
-    start = moment(start);
-    stop = moment(stop);
-
-    var timeDiff = stop.diff(start, "hours", true);
-
-    return timeDiff;
-  },
-  determineThisWeek: function (timestamp) { // Determines how many days ago the time instance was
-    var dayDiff = moment().diff(timestamp, "days");
-
-    return dayDiff;
-  },
-  weekDataArray: [],
-  timeDataArray: [],
-  getAllTime: function () { // Fetch time node from Firebase and parse it out for current user
-    var self = this;
-    database.ref('time/users/').once('value').then(function (snapshot) {
-      self.allTime = snapshot.val();
-      self.timeObject = self.allTime[auth.uid];
-
-      self.weekDataArray = self.calculatePersonalTime();
-
-      console.log("Week data for display ")
-      console.log(self.weekDataArray)
-
-      self.timeDataArray = self.parseAllTime();
-
-      console.log("Total data for display ")
-      console.log(self.timeDataArray)
-
-      ns.postNotification('ALL_TIME_FETCHED', null);
-    });
-  },
-  parseAllTime: function () { // Parse all time object into a format for display to read
-    var userKeys = Object.keys(this.usersObject);
-    var timeUserKeys = Object.keys(this.allTime);
-    var i;
-    var j = userKeys.length;
-    var k;
-    var l = timeUserKeys.length;
-    var payload = [];
-
-    for (i = 0; i < j; i++) {
-      for (k = 0; k < l; k++) {
-        if (userKeys[i] === timeUserKeys[k]) {
-          var timeObject = this.allTime[userKeys[i]];
-          var totalTime = this.determineTotalTime(timeObject);
-          var avgTime;
-
-          if (totalTime[1] === 0) {
-            avgTime = 0;
-          }
-          else {
-            avgTime = totalTime[0] / totalTime[1];
-          }
-
-          payload.push(
-            {
-              dailyAvg: avgTime,
-              total: totalTime[0],
-              username: this.usersObject[userKeys[i]].email
-            });
-        }
-      }
-    }
-    payload.sort(function (a, b) { return (b.total - a.total) });
-
-    return payload;
-  },
-  determineTotalTime: function (timeObject) { // Calculates total time for the previous week and filters per day
-    var keys = Object.keys(timeObject);
-    var dayIndex = 0;
-    var i;
-    var j = keys.length;
-    var totalTime = 0;
-    var days = 0;
-    var timeArr = new Array(7).fill(0);
-
-    if (keys.length !== 0) {
-      for (i = 0; i < j; i++) {
-
-        if (timeObject[keys[i]].stop !== undefined) {
-          dayIndex = this.determineThisWeek(timeObject[keys[i]].start);
-          days = 7;
-
-          if (dayIndex < 7) {
-            timeArr[dayIndex] += this.parseTimestamp(timeObject[keys[i]].start, timeObject[keys[i]].stop);
-          }
-        }
-        else {
-          console.log("null time: " + keys[i]);
-        }
-      }
-    }
-
-    j = timeArr.length;
-
-    for (i = 0; i < j; i++) {
-      if (timeArr[i] !== 0) {
-        days++;
-        totalTime += timeArr[i];
-      }
-    }
-
-    return [totalTime, days];
-  },
   convertTime: function (hours) {
     // takes a floating point value representing hours and converts it to a string
     // in the format of ### hours ## minutes
@@ -390,4 +217,6 @@ export default {
     return timeString;
   }
 }
-// var authObserver = ns.addObserver('AUTH_SIGNIN', this, data.handleSignin);
+// var authObserver = ns.addObserver('AUTH_SIGNIN', this, handleSignin);
+
+export default data;

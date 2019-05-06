@@ -4,7 +4,7 @@ import './main.css';
 import Jumbotron from '../Jumbotron/jumbotron';
 import ChartDisplay from '../ChartDisplay/chartDisplay';
 // import graph
-// import table
+import CoderTable from '../CoderTable/coderTable';
 
 function Main() {
 
@@ -13,6 +13,7 @@ function Main() {
       <Jumbotron />
       <div className='container'>
         <ChartDisplay />
+        <CoderTable />
       </div>
     </div>
   )

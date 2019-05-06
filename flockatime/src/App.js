@@ -21,20 +21,11 @@ export default App;
 /* 
 Components:
 
-Navbar
-  Navitem
-
-Jumbotron
-
 ChartContainer
 
 ProgrammerTable
   ProgrammerRow
 
 AuthModal
-  AuthForm
   FacebookLogin
-
-Button
-
 */
