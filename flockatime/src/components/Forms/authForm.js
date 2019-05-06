@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './authForm.css';
 
+import FBLogin from '../FacebookLogin/fbLogin';
+
 import auth from '../../utilities/auth';
 import ns from '../../utilities/notificationService';
 
@@ -54,6 +56,7 @@ function AuthForm(props) {
         <input type='password' className='form-control' id='password' placeholder='password' value={password} onChange={onPasswordChange}></input>
       </div>
       <button type='submit' className='btn btn-primary' onClick={handleAuthSubmit}>{btnText}</button>
+      <FBLogin />
     </form>
   );
 }

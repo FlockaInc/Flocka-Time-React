@@ -1,13 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import FacebookLogin from 'react-facebook-login';
 
-function fbLogin() {
+function FBLogin() {
   const responseFacebook = (response) => {
     console.log(response);
   }
 
-  function componentClicked() {
+  function handleClick() {
     console.log('fb login clicked');
   }
 
@@ -16,10 +15,10 @@ function fbLogin() {
       appId="1088597931155576"
       autoLoad={true}
       fields="name,email,picture"
-      onClick={componentClicked}
+      onClick={handleClick}
       callback={responseFacebook}
     />
   );
 }
 
-export default fbLogin;
+export default FBLogin;
