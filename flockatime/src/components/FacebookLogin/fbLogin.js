@@ -15,7 +15,7 @@ function FBLogin() {
       appId="613416699125829"
       autoLoad={true}
       fields="name,email,picture"
-      onClick={handleClick}
+      // onClick={handleClick}
       callback={responseFacebook}
     />
   );

@@ -24,7 +24,7 @@ export default {
     this.observers[notifName].push(obj);
   },
   postNotification: function(notifName, data) {
-    // console.log('posting: ' + notifName);
+    console.log('posting: ' + notifName);
     let obs = this.observers[notifName];
     if (obs) {
       if (obs.length) {
