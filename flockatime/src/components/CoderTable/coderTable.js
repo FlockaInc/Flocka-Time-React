@@ -25,7 +25,6 @@ function CoderTable() {
   }, []);
 
   function handleSignIn() {
-    console.log('coder table handle signin');
     setAuthenticated(true);
     ds.downloadFlockalogs();
   }
@@ -43,10 +42,6 @@ function CoderTable() {
   }
 
   function generateCoderRows() {
-    // let uid = authService.getCurrentUser().uid;
-    // console.log(uid);
-    console.log('generateCoderRows');
-    console.log(authenticated && flockaData);
     if (authenticated && flockaData) {
       const leaderboard = flockaData.map((user, index) => {
         var rank = index + 1

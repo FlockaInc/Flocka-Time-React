@@ -25,12 +25,9 @@ function AuthForm(props) {
   function handleAuthSubmit(event) {
     event.preventDefault();
     // call email validator api, etc.
-    console.log('email:', email);
-    console.log('password:', password);
 
     if (props.authType === 'signin') {
       auth.signIn(email, password).then(uid => {
-        console.log(uid);
         toggleModal();
       }).catch(error => {
         console.log(error);
@@ -38,7 +35,6 @@ function AuthForm(props) {
       });
     } else if (props.authType === 'signup') {
       auth.signUp(email, password).then(uid => {
-        console.log(uid);
         toggleModal();
       }).catch(error => {
         console.log(error);

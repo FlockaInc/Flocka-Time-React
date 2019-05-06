@@ -7,25 +7,7 @@ let data = {
   allUserFlockalogs: {},
   usersObject: {}, // Object containing all users and child objects fetched from Firebase
   flockaflag: false,
-  
-  // function handleSignin() {
-  //   // check users node if the currently authenticated user uses vscode
-  //   var uid = auth.currentUser.uid;
-  //   var self = this;
-  //   console.log('data handleSignIn');
 
-  //   database.ref('/users/' + uid).once('value').then(function (userSnapshot) {
-  //     var user = userSnapshot.val();
-  //     console.log(user);
-  //     if (user.flocka !== undefined && user.flocka) {
-  //       self.flockaflag = true;
-  //       self.downloadFlockalogs();
-  //     } else {
-  //       self.flockaflag = false;
-  //     }
-  //   });
-  // }
-  
   createUser: function (email) {
     database.ref("users/" + authService.getCurrentUser().uid + "/").update(email);
   },
@@ -46,7 +28,6 @@ let data = {
     let flockalogSnapshot = database.ref('/flockalogs').once('value');
     let usersSnapshot = database.ref('/users').once('value');
 
-    console.log('downloadFlockalogs');
     var self = this;
 
     return Promise.all([flockalogSnapshot, usersSnapshot]).then(function (snapshot) {
@@ -108,8 +89,6 @@ let data = {
         allUsers[users[uid].email].push(dailyTime);
       }
 
-      console.log(allUsers);
-
       self.allUserFlockalogs = allUsers;
       ns.postNotification('DATA_FLOCKALOGS_DOWNLOADED', null);
     });
@@ -121,7 +100,6 @@ let data = {
     var leaderboard = [];
     // number of days since the unix epoch
     var today = Math.floor(moment(moment().format('YYYY-MM-DD')).valueOf() / 86400000);
-    console.log('today: ' + today);
     if (keys.length) {
       for (var username in this.allUserFlockalogs) {
         var user = {
@@ -188,8 +166,6 @@ let data = {
         }
       }
 
-
-      console.log(lastSevenDaysFlockalogs);
       return lastSevenDaysFlockalogs;
     }
   },

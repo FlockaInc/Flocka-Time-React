@@ -7,6 +7,10 @@ function fbLogin() {
     console.log(response);
   }
 
+  function componentClicked() {
+    console.log('fb login clicked');
+  }
+
   return (
     <FacebookLogin
       appId="1088597931155576"
@@ -17,3 +21,5 @@ function fbLogin() {
     />
   );
 }
+
+export default fbLogin;

@@ -14,9 +14,7 @@ export default {
         self.uid = userId;
         var userEmail = user.user.email;
         var emailObj = { email: userEmail };
-        console.log(emailObj);
 
-        // data.createUser(emailObj);
         data.createUser(emailObj);
 
         // not sure if userId is the best thing to return
@@ -53,7 +51,6 @@ export default {
     });
   },
   firebaseAuthListener: auth.onAuthStateChanged(function (user) {
-    console.log('firebase auth listener fired');
     if (user) {
       ns.postNotification('AUTH_SIGNIN', user.uid);
     }

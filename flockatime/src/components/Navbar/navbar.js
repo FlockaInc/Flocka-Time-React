@@ -70,12 +70,10 @@ function Navbar() {
   let navItemArr = [signOutBtn, signInBtn, apiBtn]
 
   function handleAuthSignin() {
-    console.log('auth sign in from useEffect');
     setAuthenticated(true);
   }
 
   function handleAuthSignout() {
-    console.log('auth sign out from useEffect');
     setAuthenticated(false);
   }
 
