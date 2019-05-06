@@ -12,7 +12,7 @@ function FBLogin() {
 
   return (
     <FacebookLogin
-      appId="1088597931155576"
+      appId="613416699125829"
       autoLoad={true}
       fields="name,email,picture"
       onClick={handleClick}
