@@ -90,13 +90,14 @@ let data = {
       }
 
       self.allUserFlockalogs = allUsers;
+      console.log(self.allUserFlockalogs);
       ns.postNotification('DATA_FLOCKALOGS_DOWNLOADED', null);
     });
   },
 
   getFlockalogsLeaderboard: function () {
     // ms in a day = 86,400,000
-    var keys = Object.keys(this.allUserFlockalogs);
+    var keys = Object.keys(this.allUserFlockalogs).slice();
     var leaderboard = [];
     // number of days since the unix epoch
     var today = Math.floor(moment(moment().format('YYYY-MM-DD')).valueOf() / 86400000);
@@ -109,7 +110,9 @@ let data = {
         };
         var dayCount = 0;
         var codeTime = 0;
-        for (var dailyTime of this.allUserFlockalogs[username]) {
+
+        let flockalogCopy = this.allUserFlockalogs[username].slice()
+        for (var dailyTime of flockalogCopy) {
           var currentDay = Math.floor(moment(dailyTime.date).valueOf() / 86400000);
           var daysFromToday = today - currentDay;
 
@@ -133,40 +136,34 @@ let data = {
     // returns the current user's daily code time for the past 7 days
     // code time reported in hours
     var keys = Object.keys(this.allUserFlockalogs);
+
     if (keys.length) {
       var email = authService.getCurrentUser().email;
-      var myFlockalogs = this.allUserFlockalogs[email];
-      for (var i = 0; i < myFlockalogs.length; i++) {
-        myFlockalogs[i].time = myFlockalogs[i].time / 1000 / 3600;
-      }
+      var myFlockalogs = this.allUserFlockalogs[email].slice();
 
-      var lastSevenDaysFlockalogs = [];
-      var today = Math.floor(moment(moment().format('YYYY-MM-DD')).valueOf() / 86400000);
+      if (myFlockalogs) {
+        var today = Math.floor(moment(moment().format('YYYY-MM-DD')).valueOf() / 86400000);
 
-      for (var i = 6; i >= 0; i--) {
-        var flag = false;
-        for (var log of myFlockalogs) {
+        const lastSevenDaysFlockalogs = myFlockalogs.filter(log => {
           var currentDay = Math.floor(moment(log.date).valueOf() / 86400000);
-          var daysFromToday = today - currentDay;
-          if (daysFromToday === i) {
-            lastSevenDaysFlockalogs.push(log);
-            flag = true;
-          }
+          let daysFromToday = today - currentDay;
 
-          // if (daysFromToday <= 6) {
-          // lastSevenDaysFlockalogs.push(log);
-          // }
-        }
-        if (!flag) {
-          var zeroLog = {
-            date: 'test',
-            time: 0
+          return daysFromToday <= 6;
+        });
+
+        const lastSevenDaysFlockalogsInHours = lastSevenDaysFlockalogs.map(log => {
+          let hours = log.time / 1000 / 3600;
+          let date = log.date;
+
+          return {
+            time: hours,
+            date: date
           };
-          lastSevenDaysFlockalogs.push(zeroLog);
-        }
-      }
+        })
 
-      return lastSevenDaysFlockalogs;
+        return lastSevenDaysFlockalogsInHours;
+      }
+      return null;
     }
   },
 

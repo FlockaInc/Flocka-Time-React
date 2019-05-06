@@ -1,9 +1,14 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
 
+import authService from '../../utilities/auth';
+
 function FBLogin() {
   const responseFacebook = (response) => {
+    let event = {};
     console.log(response);
+    event.response = response;
+    authService.checkLoginState(event);
   }
 
   function handleClick() {

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './authForm.css';
 
-import FBLogin from '../FacebookLogin/fbLogin';
+// import FBLogin from '../FacebookLogin/fbLogin';
 
-import auth from '../../utilities/auth';
+import authService from '../../utilities/auth';
 import ns from '../../utilities/notificationService';
 
 function AuthForm(props) {
@@ -29,20 +29,25 @@ function AuthForm(props) {
     // call email validator api, etc.
 
     if (props.authType === 'signin') {
-      auth.signIn(email, password).then(uid => {
+      authService.signIn(email, password).then(uid => {
         toggleModal();
       }).catch(error => {
         console.log(error);
         // display errors
       });
     } else if (props.authType === 'signup') {
-      auth.signUp(email, password).then(uid => {
+      authService.signUp(email, password).then(uid => {
         toggleModal();
       }).catch(error => {
         console.log(error);
         // display errors
       });
     }
+  }
+
+  function facebookLoginTest(event) {
+    event.preventDefault();
+    authService.socialMediaSignIn();
   }
 
   return (
@@ -56,7 +61,9 @@ function AuthForm(props) {
         <input type='password' className='form-control' id='password' placeholder='password' value={password} onChange={onPasswordChange}></input>
       </div>
       <button type='submit' className='btn btn-primary' onClick={handleAuthSubmit}>{btnText}</button>
-      <FBLogin />
+      {/* <FBLogin /> */}
+      <div className="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="true"></div>
+      <button type='submit' className='btn btn-danger' onClick={facebookLoginTest}>Facebook</button>
     </form>
   );
 }
