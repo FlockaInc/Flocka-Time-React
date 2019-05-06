@@ -12,7 +12,8 @@ const customStyles = {
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     maxWidth: '450px',
-    minWidth: '350px'
+    minWidth: '350px',
+    padding: 0
   }
 };
 
@@ -35,16 +36,15 @@ function AuthModal() {
   return (
     <div className="modal fade" role="dialog">
       <div className="modal-dialog" role="document">
-        <div className="modal-content">
-          <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={toggleModal}
-            shouldCloseOnOverlayClick={true}
-            style={customStyles}
-          >
-
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={toggleModal}
+          shouldCloseOnOverlayClick={true}
+          style={customStyles}
+        >
+          <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Modal title</h5>
+              <h5 className="modal-title text-black">Modal title</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -56,8 +56,8 @@ function AuthModal() {
               <button type="button" className="btn btn-primary">Save changes</button>
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
-          </Modal>
-        </div>
+          </div>
+        </Modal>
       </div>
     </div>
   );
