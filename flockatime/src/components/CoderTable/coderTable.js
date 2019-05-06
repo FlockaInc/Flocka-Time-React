@@ -63,7 +63,7 @@ function CoderTable() {
   }
 
   return (
-    <table className='table table-hover leaderboard my-3'>
+    <table className='table table-hover table-sm leaderboard my-3'>
       <thead>
         <tr>
           <th>Rank</th>
