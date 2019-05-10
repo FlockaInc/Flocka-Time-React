@@ -33,5 +33,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "react-test-renderer": "^16.8.6"
   }
 }
