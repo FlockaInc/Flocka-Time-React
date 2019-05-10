@@ -36,7 +36,6 @@ let data = {
 
       var allUsers = {};
       for (var uid in flockalogs.users) {
-        // allUsers[uid] = [];
         allUsers[users[uid].email] = [];
         var prevTimestamp = 0;
         var username = '';
