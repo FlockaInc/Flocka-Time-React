@@ -1,5 +1,5 @@
 # group_project1_react
-Rewriting the website from group_project1 in React
+Rewriting the website from vanilla flockatime in React
 
 ## Website
 
