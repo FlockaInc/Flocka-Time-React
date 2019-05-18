@@ -12,7 +12,14 @@ function BarGraph(props) {
 
   const options = {
     title: {
-      text: "Code Time (Last 7 Days)"
+      text: "Programming Time (Last 7 Days)"
+    },
+    toolTip: {
+      content: function (e) {
+        var content;
+        content = ds.convertTime(e.entries[0].dataPoint.y);
+        return content;
+      }
     },
     theme: 'dark1',
     animationEnabled: true,
