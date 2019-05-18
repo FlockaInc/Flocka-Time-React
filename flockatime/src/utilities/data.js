@@ -120,9 +120,13 @@ let data = {
             dayCount++
           }
         }
-        user.total = codeTime / 1000 / 3600;
-        user.dailyAvg = user.total / dayCount;
-        leaderboard.push(user);
+
+        if (codeTime) {
+          user.total = codeTime / 1000 / 3600;
+          user.dailyAvg = user.total / dayCount;
+          leaderboard.push(user);
+        }
+        
       }
 
       leaderboard.sort(function (a, b) { return (b.total - a.total) });
