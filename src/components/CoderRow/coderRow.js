@@ -2,8 +2,11 @@ import React from 'react';
 import './coderRow.css';
 
 function CoderRow(props) {
+  let rowClass = props.currentUser ? 'my-data' : '';
+
+
   return (
-    <tr>
+    <tr className={rowClass}>
       <td>{props.rank}</td>
       <td>{props.username}</td>
       <td>{props.total}</td>

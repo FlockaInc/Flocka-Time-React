@@ -11,6 +11,7 @@ function CoderTable() {
   const [authenticated, setAuthenticated] = useState(false);
   const [flockaData, setFlockaData] = useState(null);
   const [userData, setUserData] = useState(null);
+  // const [currentUserEmail, setCurrentUserEmail] = useState(authService.getCurrentUser().email);
 
   useEffect(() => {
     ns.addObserver('AUTH_SIGNIN', this, handleSignIn);
@@ -42,6 +43,7 @@ function CoderTable() {
   }
 
   function generateCoderRows() {
+    let currentUser = authService.getCurrentUser();
     if (authenticated && flockaData) {
       const leaderboard = flockaData.map((user, index) => {
         var rank = index + 1
@@ -49,8 +51,10 @@ function CoderTable() {
         var dailyAvg = ds.convertTime(user.dailyAvg);
         var total = ds.convertTime(user.total);
 
+        var currentUserFlag = username == currentUser.email ? true : false;
+
         return (
-          <CoderRow rank={rank} key={index} username={username} dailyAvg={dailyAvg} total={total} />
+          <CoderRow rank={rank} key={index} username={username} currentUser={currentUserFlag} dailyAvg={dailyAvg} total={total} />
         );
       });
 
