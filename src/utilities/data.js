@@ -96,16 +96,16 @@ let data = {
 
   generateFlockaUserObj: function(uid, users, allUsers, flockalogs) {
     var userObj = {};
-    
-    allUsers[users[uid].email] = [];
-    var prevTimestamp = 0;
-    var username = '';
+    var username = users[uid].email;
 
-    for (var user in users) {
-      if (uid === user) {
-        username = users[user].email;
-      }
-    }
+    // allUsers[users[uid].email] = [];
+    var prevTimestamp = 0;
+
+    // for (var user in users) {
+    //   if (uid === user) {
+    //     username = users[user].email;
+    //   }
+    // }
 
     var user = flockalogs.users[uid];
     var currentDay = null;
@@ -147,6 +147,10 @@ let data = {
     };
     // allUsers[uid].push(dailyTime);
     allUsers[users[uid].email].push(dailyTime);
+  },
+
+  computeUserTime: function () {
+
   },
 
   getFlockalogsLeaderboard: function () {
