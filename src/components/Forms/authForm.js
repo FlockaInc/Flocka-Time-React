@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './authForm.css';
 
 import FacebookLogin from 'react-facebook-login';
-
+ 
 // import FBLogin from '../FacebookLogin/fbLogin';
 
 import authService from '../../utilities/auth';
@@ -75,13 +75,14 @@ function AuthForm(props) {
 
       {/* <FacebookLogin
         appId="613416699125829"
-        autoLoad={true}
+        autoLoad={false}
         fields="name,email,picture"
-        // onClick={handleClick}
+        onClick={facebookLoginTest}
         callback={responseFacebook}
+        size='small'
       /> */}
 
-      <button type='submit' className='btn btn-danger' onClick={facebookLoginTest}>Facebook</button>
+      <button type='submit' className='btn fb-btn' onClick={facebookLoginTest}>Facebook</button>
     </form>
   );
 }
