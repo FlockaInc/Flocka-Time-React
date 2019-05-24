@@ -6,8 +6,8 @@ function Jumbotron() {
 
   return (
     <div className='jumbotron'>
-      <h1 className='display-3'>FLOCKA TIME</h1>
-      <p className='lead'>This is Flocka Time, an easy to use extension for Visual
+      <h1 className='display-3 mx-5'><strong>FLOCKA TIME</strong></h1>
+      <p className='lead text-white mx-5'>This is Flocka Time, an easy to use extension for Visual
       Studio Code that tracks you and your friends' coding time. Based off the Waka Time extension.</p>
     </div>
   );

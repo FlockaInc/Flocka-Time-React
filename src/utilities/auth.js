@@ -13,7 +13,10 @@ export default {
         var userId = user.user.uid;
         self.uid = userId;
         var userEmail = user.user.email;
-        var emailObj = { email: userEmail };
+        var emailObj = { 
+          email: userEmail,
+          flocka: true
+        };
 
         data.createUser(emailObj);
 

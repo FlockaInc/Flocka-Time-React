@@ -96,7 +96,7 @@ function Navbar() {
     if (authenticated && apiShow) {
       return (
         <div className='text-white my-auto'>
-          <p className='my-auto'>{auth.getApiKey()}</p>
+          <p className='my-auto'><strong>{auth.getApiKey()}</strong></p>
         </div>
       );
     } else {
@@ -106,7 +106,7 @@ function Navbar() {
 
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-primary'>
-      <a className='navbar-brand text-white'>Flocka Time</a>
+      <a className='navbar-brand text-white'><strong>Flocka Time</strong></a>
       <button className="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarColor01"
         aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>

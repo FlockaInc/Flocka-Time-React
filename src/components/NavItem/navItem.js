@@ -9,17 +9,16 @@ function NavItem(props) {
     );
   } else if (props.attr.element === 'button') {
     return (
-      
-      <button 
-        className={props.attr.attr.class || ''}
-        type={props.attr.attr.type || ''}
-        data-toggle={props.attr.attr.dataToggle || ''}
-        data-target={props.attr.attr.dataTarget || ''}
-        data-state={props.attr.attr.dataState || ''}
-        onClick={props.attr.attr.onClick || null}
-      >
-        {props.attr.text}
-      </button>
+        <button 
+          className={props.attr.attr.class || ''}
+          type={props.attr.attr.type || ''}
+          data-toggle={props.attr.attr.dataToggle || ''}
+          data-target={props.attr.attr.dataTarget || ''}
+          data-state={props.attr.attr.dataState || ''}
+          onClick={props.attr.attr.onClick || null}
+        >
+          <strong>{props.attr.text}</strong>
+        </button>
     );
   }
   
