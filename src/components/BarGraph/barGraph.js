@@ -14,6 +14,9 @@ function BarGraph(props) {
     title: {
       text: "Programming Time (Last 7 Days)"
     },
+    axisY: {
+      minimum: 0
+    },
     toolTip: {
       content: function (e) {
         var content;
