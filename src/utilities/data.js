@@ -22,6 +22,7 @@ let data = {
   },
 
   downloadFlockalogs: function () {
+    console.log(new Date().getTimezoneOffset());
     this.allUserFlockalogs = {};
     // download all flockalog data and store in property "allUserFlockalogs" - should be called on page load
     // 15 mins = 900,000 ms
@@ -61,6 +62,10 @@ let data = {
             prevDay = currentDay;
           } else {
             if (currentDay != prevDay) {
+              if (users[uid].email == 'burke1791@gmail.com') {
+                console.log(currentTimestamp);
+              }
+              
               var dailyTime = {
                 time: codeTime,
                 date: prevDay
