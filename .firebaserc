@@ -1,5 +1,6 @@
 {
   "projects": {
-    "prod": "flocka-time"
+    "prod": "flocka-time",
+    "default": "flocka-time"
   }
 }
