@@ -1,4 +1,4 @@
-import { database } from './fire';
+import { firedatabase, database } from './fire';
 import ns from './notificationService';
 import authService from './auth.js';
 import moment from 'moment';
@@ -21,8 +21,21 @@ let data = {
     });
   },
 
+  newPrune: function(uid) {
+    database.ref('/users/' + uid + '/lastPrune').transaction((timestamp) => {
+      if (timestamp) {
+        let today = new Date().toLocaleDateString();
+        let lastPruneDate = new Date(timestamp).toLocaleDateString();
+        
+        if (today != lastPruneDate) {
+          timestamp = firedatabase.ServerValue.TIMESTAMP;
+        }
+      }
+      return timestamp;
+    }) 
+  },
+
   downloadFlockalogs: function () {
-    console.log(new Date().getTimezoneOffset());
     this.allUserFlockalogs = {};
     // download all flockalog data and store in property "allUserFlockalogs" - should be called on page load
     // 15 mins = 900,000 ms
@@ -62,10 +75,6 @@ let data = {
             prevDay = currentDay;
           } else {
             if (currentDay != prevDay) {
-              if (users[uid].email == 'burke1791@gmail.com') {
-                console.log(currentTimestamp);
-              }
-              
               var dailyTime = {
                 time: codeTime,
                 date: prevDay
@@ -93,8 +102,8 @@ let data = {
         allUsers[users[uid].email].push(dailyTime);
       }
 
+      // console.log(allUsers);
       self.allUserFlockalogs = allUsers;
-      console.log(self.allUserFlockalogs);
       ns.postNotification('DATA_FLOCKALOGS_DOWNLOADED', null);
     });
   },

@@ -56,6 +56,7 @@ export default {
   firebaseAuthListener: auth.onAuthStateChanged(function (user) {
     if (user) {
       ns.postNotification('AUTH_SIGNIN', user.uid);
+      data.newPrune(user.uid);
     }
     else {
       ns.postNotification('AUTH_SIGNOUT', null);
