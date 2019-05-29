@@ -21,18 +21,18 @@ let data = {
     });
   },
 
-  newPrune: function(uid) {
+  newPrune: function (uid) {
     database.ref('/users/' + uid + '/lastPrune').transaction((timestamp) => {
       if (timestamp) {
         let today = new Date().toLocaleDateString();
         let lastPruneDate = new Date(timestamp).toLocaleDateString();
-        
+
         if (today != lastPruneDate) {
           timestamp = firedatabase.ServerValue.TIMESTAMP;
         }
       }
       return timestamp;
-    }) 
+    })
   },
 
   downloadFlockalogs: function () {
@@ -50,56 +50,58 @@ let data = {
 
       var allUsers = {};
       for (var uid in flockalogs.users) {
-        allUsers[users[uid].email] = [];
-        var prevTimestamp = 0;
-        var username = '';
+        if (users[uid]) {
+          allUsers[users[uid].email] = [];
+          var prevTimestamp = 0;
+          var username = '';
 
-        for (var user in users) {
-          if (uid === user) {
-            username = users[user].email;
-          }
-        }
-
-        var user = flockalogs.users[uid];
-        var currentDay = null;
-        var prevDay = null;
-        var codeTime = 0;
-        var delta = 0;
-        for (var pushId in user) {
-          var currentTimestamp = user[pushId].timestamp;
-          delta = currentTimestamp - prevTimestamp;
-          currentDay = moment(currentTimestamp).format('YYYY-MM-DD');
-
-          if (prevTimestamp === 0) {
-            prevTimestamp = currentTimestamp;
-            prevDay = currentDay;
-          } else {
-            if (currentDay != prevDay) {
-              var dailyTime = {
-                time: codeTime,
-                date: prevDay
-              };
-              // allUsers[uid].push(dailyTime);
-              allUsers[users[uid].email].push(dailyTime);
-
-              codeTime = 0;
+          for (var user in users) {
+            if (uid === user) {
+              username = users[user].email;
             }
-
-            if (delta <= 900000) {
-              // if the gap in saves is less than 15 minutes
-              codeTime += delta;
-            }
-            prevDay = currentDay;
-            prevTimestamp = currentTimestamp;
           }
-        }
 
-        var dailyTime = {
-          time: codeTime,
-          date: prevDay
-        };
-        // allUsers[uid].push(dailyTime);
-        allUsers[users[uid].email].push(dailyTime);
+          var user = flockalogs.users[uid];
+          var currentDay = null;
+          var prevDay = null;
+          var codeTime = 0;
+          var delta = 0;
+          for (var pushId in user) {
+            var currentTimestamp = user[pushId].timestamp;
+            delta = currentTimestamp - prevTimestamp;
+            currentDay = moment(currentTimestamp).format('YYYY-MM-DD');
+
+            if (prevTimestamp === 0) {
+              prevTimestamp = currentTimestamp;
+              prevDay = currentDay;
+            } else {
+              if (currentDay != prevDay) {
+                var dailyTime = {
+                  time: codeTime,
+                  date: prevDay
+                };
+                // allUsers[uid].push(dailyTime);
+                allUsers[users[uid].email].push(dailyTime);
+
+                codeTime = 0;
+              }
+
+              if (delta <= 900000) {
+                // if the gap in saves is less than 15 minutes
+                codeTime += delta;
+              }
+              prevDay = currentDay;
+              prevTimestamp = currentTimestamp;
+            }
+          }
+
+          var dailyTime = {
+            time: codeTime,
+            date: prevDay
+          };
+          // allUsers[uid].push(dailyTime);
+          allUsers[users[uid].email].push(dailyTime);
+        }
       }
 
       // console.log(allUsers);
@@ -108,7 +110,7 @@ let data = {
     });
   },
 
-  generateFlockaUserObj: function(uid, users, allUsers, flockalogs) {
+  generateFlockaUserObj: function (uid, users, allUsers, flockalogs) {
     var userObj = {};
     var username = users[uid].email;
 
@@ -199,7 +201,7 @@ let data = {
           user.dailyAvg = user.total / dayCount;
           leaderboard.push(user);
         }
-        
+
       }
 
       leaderboard.sort(function (a, b) { return (b.total - a.total) });
