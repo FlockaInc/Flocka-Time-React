@@ -11,14 +11,15 @@ admin.initializeApp();
 // });
 
 // temporarily using my uid
-exports.pruneFlockaLogs = functions.database.ref('/users/P7HkdSzD2CY9cyVUO1trEjcn8Is2/lastPrune').onUpdate((change, context) => {
+exports.pruneFlockaLogs = functions.database.ref('/users/{userId}/lastPrune').onUpdate((change, context) => {
   const prevChangeTime = change.before.val();
   const newChangeTime = change.after.val();
+  
 
-  const flockaLogsSnapshot = admin.database().ref('/flockalogs/users/P7HkdSzD2CY9cyVUO1trEjcn8Is2').once('value');
-  const offsetSnapshot = admin.database().ref('/users/P7HkdSzD2CY9cyVUO1trEjcn8Is2/').once('value');
+  const flockaLogsSnapshot = admin.database().ref('/flockalogs/users/{userId}').once('value');
+  const offsetSnapshot = admin.database().ref('/users/{userId}/').once('value');
 
-  const dailyTimeRef = admin.database().ref('/flockalogs-dailySummary/users/P7HkdSzD2CY9cyVUO1trEjcn8Is2/');
+  const dailyTimeRef = admin.database().ref('/flockalogs-dailySummary/users/{userId}/');
 
   return Promise.all([flockaLogsSnapshot, offsetSnapshot]).then(data => {
     let flockalogs = data[0];
