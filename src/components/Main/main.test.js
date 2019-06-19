@@ -1,8 +1,10 @@
 import React from 'react';
-import App from './App';
 import { render, cleanup } from '@testing-library/react';
+import Main from './main';
 
-it('renders without crashing', () => {
-  const { asFragment  } = render(<App />);
+afterEach(cleanup);
+
+it('renders', () => {
+  const { asFragment } = render(<Main />);
   expect(asFragment()).toMatchSnapshot();
 });

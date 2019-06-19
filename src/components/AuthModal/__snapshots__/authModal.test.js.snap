@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <div
+    class="modal fade"
+    id="sign-in-form"
+  >
+    <div
+      class="modal-dialog modal-dialog-centered"
+    />
+  </div>
+</DocumentFragment>
+`;

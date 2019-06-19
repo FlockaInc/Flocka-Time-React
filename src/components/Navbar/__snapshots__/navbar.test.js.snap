@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <nav
+    class="navbar navbar-expand-lg navbar-dark bg-primary"
+  >
+    <a
+      class="navbar-brand text-white"
+    >
+      <strong>
+        Flocka Time
+      </strong>
+    </a>
+    <button
+      aria-controls="navbarColor01"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      class="navbar-toggler "
+      data-target="#navbarColor01"
+      data-toggle="collapse"
+      type="button"
+    >
+      <span
+        class="navbar-toggler-icon"
+      />
+    </button>
+    <div
+      class="collapse navbar-collapse"
+      id="navbarColor01"
+    >
+      <div
+        aria-label="Toolbar with button groups"
+        class="btn-toolbar ml-auto"
+        role="toolbar"
+      >
+        <div
+          aria-label="Toolbar with button groups"
+          class="btn-toolbar"
+          role="toolbar"
+        >
+          <button
+            class="btn btn-primary d-none"
+            data-state=""
+            data-target="#sign-out-form"
+            data-toggle="modal"
+            type="button"
+          >
+            <strong>
+              Sign Out
+            </strong>
+          </button>
+        </div>
+        <div
+          aria-label="Toolbar with button groups"
+          class="btn-toolbar"
+          role="toolbar"
+        >
+          <button
+            class="btn btn-primary"
+            data-state=""
+            data-target="#sign-in-form"
+            data-toggle="modal"
+            type="button"
+          >
+            <strong>
+              Sign In
+            </strong>
+          </button>
+        </div>
+        <div
+          aria-label="Toolbar with button groups"
+          class="btn-toolbar"
+          role="toolbar"
+        >
+          <button
+            class="btn btn-primary d-none"
+            data-state="hidden"
+            data-target="#apiKey"
+            data-toggle="modal"
+            type="button"
+          >
+            <strong>
+              API Key
+            </strong>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="sign-in-form"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered"
+      />
+    </div>
+  </nav>
+</DocumentFragment>
+`;
