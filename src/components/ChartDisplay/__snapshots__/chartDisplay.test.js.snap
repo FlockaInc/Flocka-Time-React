@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <div
+    class="row"
+  >
+    <div
+      class="col-1"
+    />
+    <div
+      class="col-10"
+    />
+    <div
+      class="col-1"
+    />
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <tr
+    class="my-data"
+  >
+    <td>
+      2
+    </td>
+    <td>
+      test
+    </td>
+    <td>
+      6.9
+    </td>
+    <td>
+      1.2
+    </td>
+  </tr>
+</DocumentFragment>
+`;
