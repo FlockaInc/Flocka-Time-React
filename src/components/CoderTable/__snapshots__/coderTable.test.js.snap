@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <table
+    class="table table-hover table-sm text-white leaderboard my-3"
+  >
+    <thead>
+      <tr>
+        <th>
+          Rank
+        </th>
+        <th>
+          Programmer
+        </th>
+        <th>
+          Hours Coded
+        </th>
+        <th>
+          Daily Average
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+  </table>
+</DocumentFragment>
+`;

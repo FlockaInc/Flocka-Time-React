@@ -71,7 +71,7 @@ function AuthForm(props) {
         <label htmlFor='password'>Password</label>
         <input type='password' className='form-control' id='password' placeholder='password' value={password} onChange={onPasswordChange}></input>
       </div>
-      <button type='submit' className='btn btn-primary' onClick={handleAuthSubmit}>{btnText}</button>
+      <button type='submit' className='btn btn-primary' data-textid='submitBtn' onClick={handleAuthSubmit}>{btnText}</button>
 
       {/* <FacebookLogin
         appId="613416699125829"

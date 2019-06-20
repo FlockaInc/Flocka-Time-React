@@ -1,4 +1,6 @@
-# group_project1_react
+
+
+# Flockatime in React
 Rewriting the original flockatime website with React
 
 ## Website
